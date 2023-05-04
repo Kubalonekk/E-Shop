@@ -1,0 +1,51 @@
+{% extends 'App/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<br>
+<section class="main-content">
+    <div class="container">
+        <div class="col-sm-6 offset-sm-3">
+            <div class="post-block">
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.username|as_crispy_field}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.email|as_crispy_field}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                {{ form.phone|as_crispy_field}}
+            </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.first_name|as_crispy_field}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.last_name|as_crispy_field}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.password1|as_crispy_field}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.password2|as_crispy_field}}
+            </div>
+        </div>
+
+        <button class="btn btn-outline-primary mb-5" type='submit'>Zarejestruj się</button>
+    </form>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

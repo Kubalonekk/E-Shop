@@ -1,0 +1,81 @@
+{% extends 'App/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+
+<ul class="nav nav-pills nav-fill mt-4">
+    <li class="nav-item">
+      <a class="nav-link btn-outline-success" href="{% url 'dashboard_orders' %}">Zamowienia</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn-outline-success" href="{% url 'dashboard_items'%}">Przedmioty</a>
+    </li>
+</ul>
+    
+    <form method="GET" action="{% url 'dashboard_orders' %}" class="mt-2">
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ myFilter.form.order_id|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ myFilter.form.customer|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-2">
+                {{ myFilter.form.start_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-2">
+                {{ myFilter.form.end_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ myFilter.form.status|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3">
+              {{ myFilter.form.shipment_status|as_crispy_field }}
+          </div>
+     
+            <div class="form-group col-md-12">
+                <button class="btn btn-outline-success mb-5 float-end" type='submit'>Szukaj</button>
+            </div>
+
+
+        </div>
+    </form>
+
+
+
+    <table class="table mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Numer zamowienia</th>
+            <th scope="col">Ukończone</th>
+            <th scope="col">Wysyłka</th>
+            <th scope="col">Data ukończenia</th>
+            <th scope="col">Klient</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="{% url 'dashboard_order' order.id %}" class="link-dark">{{ order.transaction_id}}</a></td>
+            {% if order.complete == True %}   
+            <td class="text-center">Tak</i></td>
+            {% else %}
+            <td class="text-center">Nie</i></td>
+            {% endif %}
+            <td>{{ order.shipment_status}}</td>
+            <td>{{ order.completion_date}}</td>
+            <td><a href="" class="link-dark">{{ order.customer}}</a></td>
+
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+
+{% endblock %}

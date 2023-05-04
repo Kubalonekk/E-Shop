@@ -1,0 +1,26 @@
+{% extends 'App/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="container mt-5">
+    <h2 class="mb-4">{{item.title}}</h2>
+    <form method="POST">
+        {% csrf_token %}
+    <div class="row">
+        <div class="form-group col-md-4">
+                {{ form.size|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-2">
+                {{ form.amount_in_stock|as_crispy_field}}
+        </div>
+    </div>
+        <div class="form-group col-md-6">
+        <button class="btn btn-outline-primary mb-5 float-end" type='submit'>Dodaj</button>
+        </div>
+    </div>
+    </form>
+</div>
+
+{% endblock %}

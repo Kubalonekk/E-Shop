@@ -1,0 +1,34 @@
+{% extends 'App/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<section class="main-content">
+		<div class="container m-5">
+            <div class="col-sm-6 offset-sm-3">
+                <div class="post-block">
+                    <center><h1 class="display-1 fw-bold">404</h1>
+                    <p class="fs-3"> <span class="text-danger">Opps!</span> Nie znaleziono strony</p>
+                    <p class="lead">
+                        Strona, której szukasz, nie istnieje.
+                    </p>
+                    <a href="{% url 'index' %}">Wróć do strony głównej</a>
+                </center>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+<img src="{% static 'images/cringe.jpg' %}"> {% endcomment %}
+
+

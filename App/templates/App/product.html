@@ -1,0 +1,117 @@
+{% extends 'App/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<section class="">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-lg-5 mt-5">
+                <div class="card mb-3">
+                    <img class="card-img img-fluid" src="{{ main_image.img.url}}" alt="Card image cap" id="product-detail">
+                </div>
+                <div class="row">
+                    <!--Start Carousel Wrapper-->
+                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                        <!--Start Slides-->
+                        <div class="carousel-inner product-links-wap" role="listbox">
+
+                            <!--First slide-->
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    {% for image in images %}
+                                    <div class="col-4 mt-2">
+                                        <a href="#">
+                                            <img class="card-img img-fluid" src="{{ image.img.url }}" alt="Product Image 1">
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!--/.First slide-->
+                        </div>
+                        <!--End Slides-->
+                    </div>
+                    <!--End Carousel Wrapper-->
+                </div>
+            </div>
+            <!-- col end -->
+            <div class="col-lg-7 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="h2">{{ product.title }}</h1>
+                        <p class="h3 py-2">{{ product.price }} PLN</p>
+                        <p class="py-2">
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-secondary"></i>
+                            <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                        </p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <h6>Kategorie:</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text-muted"><strong>{{ product.category }}</strong></p>
+                            </li>
+                        </ul>
+
+                        <h6>Opis:</h6>
+                        <p>{{ product.description}}</p>
+                        <form action="{% url 'product' product.slug %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="list-inline pb-3">
+                                    {% if sizes.all %}
+                                    <label  for="size">Rozmiar:</label>
+
+                                        <select  class="btn btn-success" name="product-size" id="size" required>
+                                        {% for size in sizes %}
+                                          <option value="{{size.size}}">{{size.size}}</option>
+                                        {% empty %}
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                        </select> 
+
+
+                                    </ul>
+                                </div>
+                                <div class="col-auto">
+                                    <ul class="list-inline pb-3">
+                                        <li class="list-inline-item text-right">
+                                            Ilość
+                                            <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                        </li>
+                                        <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                                        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
+                                        <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+            
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Dodaj do koszyka</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Close Content -->
+
+
+
+
+
+{% endblock %}

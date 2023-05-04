@@ -1,0 +1,75 @@
+{% extends 'App/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+
+<ul class="nav nav-pills nav-fill mt-4">
+    <li class="nav-item">
+      <a class="nav-link btn-outline-success" href="{% url 'dashboard_orders' %}">Zamowienia</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn-outline-success" href="{% url 'dashboard_items'%}">Przedmioty</a>
+    </li>
+</ul>
+    
+    <form method="GET" action="{% url 'dashboard_items' %}" class="mt-2">
+        <div class="row">
+            <div class="form-group col-md-4">
+                {{ myFilter.form.title|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-2">
+                {{ myFilter.form.category|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-2">
+                {{ myFilter.form.gender|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-2">
+              {{ myFilter.form.price__gte|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-2">
+              {{ myFilter.form.price__lte|as_crispy_field }}
+          </div>
+            <div class="form-group col-md-12">
+                <button class="btn btn-outline-success mb-5 float-end" type='submit'>Szukaj</button>
+            </div>
+
+
+        </div>
+    </form>
+
+
+    <a href="{% url 'dashboard_add_item' %}"><button class="btn btn-outline-primary mb-1" type='submit'>Dodaj przedmiot</button></a>
+    <table class="table mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Przedmiot</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Kategoria</th>
+            <th scope="col">Dla kogo</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="" class="link-dark">{{ item.title}}</a></td>
+            <td>{{item.price}} PLN</td>
+            <td>{{item.category}}</td>
+            <td>{{ item.gender}}</td>
+            <td><a href=""><button class="btn btn-outline-primary mb-1" type='submit'>Edytuj</button></a></td>
+            <td><a href="{% url 'dashboard_add_stock_item' item.id %}"><button class="btn btn-outline-primary mb-1" type='submit'>Dodaj stock</button></a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+
+{% endblock %}

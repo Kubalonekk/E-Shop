@@ -1,0 +1,68 @@
+{% extends 'App/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://sandbox-easy-geowidget-sdk.easypack24.net/inpost-geowidget.css"/>
+    <script src='https://sandbox-easy-geowidget-sdk.easypack24.net/inpost-geowidget.js' defer></script>
+    <script>
+
+      function afterPointSelected(point) {
+        alert('Wybrano punkt: ' + point.name);
+        $('#js_data_input').val(point.name);
+        
+      }
+    </script>
+</head>
+<br>
+<section class="main-content">
+    <div class="container">
+        <div class="col-sm-6 offset-sm-3">
+            <div class="post-block">
+    <form action="" method="post">
+        {% csrf_token %}
+        <h2 class="mb-3">Dane dostawy</h2>
+        <div class="row">
+            {{ form|as_crispy_errors }}
+            <div class="form-group col-md-6">
+                {{ form.email|as_crispy_field}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.phone|as_crispy_field}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.name|as_crispy_field}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.last_name|as_crispy_field}}
+            </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.street_address|as_crispy_field}}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.city|as_crispy_field}}
+            </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                {{ form.postcode|as_crispy_field}}
+            </div>
+        </div>
+        <input type="hidden" name="parcel_machine" id="js_data_input">
+        <div style="height:500px">
+            <inpost-geowidget onpoint="afterPointSelected" token='eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkVzROZW9TeXk0OHpCOHg4emdZX2t5dFNiWHY3blZ0eFVGVFpzWV9TUFA4In0.eyJleHAiOjE5OTc5NTY2NjIsImlhdCI6MTY4MjU5NjY2MiwianRpIjoiNGVkNmI4NjItZTBhZi00Mjk1LThiNjYtMmIxNzRlOGFjNzBiIiwiaXNzIjoiaHR0cHM6Ly9zYW5kYm94LWxvZ2luLmlucG9zdC5wbC9hdXRoL3JlYWxtcy9leHRlcm5hbCIsInN1YiI6ImY6N2ZiZjQxYmEtYTEzZC00MGQzLTk1ZjYtOThhMmIxYmFlNjdiOmRYbDVhb0g4UVBfS3loOUo3YVc2UE9jOTl3ck9OVXpRTl9YS2tuQlBiZTgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzaGlweCIsInNlc3Npb25fc3RhdGUiOiJlM2YxY2I2ZC0xNGNiLTRhYjMtODhlYi1iYjI2Y2UxNDVkYTkiLCJzY29wZSI6Im9wZW5pZCBhcGk6YXBpcG9pbnRzIiwic2lkIjoiZTNmMWNiNmQtMTRjYi00YWIzLTg4ZWItYmIyNmNlMTQ1ZGE5IiwiYWxsb3dlZF9yZWZlcnJlcnMiOiJkMWM1LTgzLTMxLTIzOC0xODAubmdyb2stZnJlZS5hcHAiLCJ1dWlkIjoiMzZkMWRjYzktMDA0Zi00ZDFkLTliMzQtMDNmMWM0Mzc3NjE1In0.WUcnBfxI_1eJqEUD3aGrtuX8bk3031WKuPZQZxZsb57Yfg44O-dvOf4kzc46Fi327UuYoF-fzNrbR6zgHSlvoONz4skTOyNv5uB5tc8puxpkr7fXVBibKkOfStebkWKOxvf7hkd9tC-hnIIYziOW0izv5YLuHxwLBSfrTvPCqyoc10rthGe-EH-Sqljp3dwZwCSQwy2OH4_fICdBlp-4U3UeNsymzKG0iVZ6PC7V7T-eKPXSKKXDkPRlgidsLURpMsipRSHtlCKZaxTUOcnO7BEkC5uPNhj1USBVzV5xqALwsDZDqfHy6LG6bQdJJ6EsN87bD1f3OcokHHy2q_Vjdw' language='pl'  config='parcelCollect'></inpost-geowidget>
+        </div>
+        <button class="btn btn-outline-primary mb-5" type='submit'>Przejdź do płatności</button>
+    </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

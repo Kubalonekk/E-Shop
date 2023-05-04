@@ -1,0 +1,75 @@
+{% extends 'App/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Numer zamowienia</th>
+        <th scope="col">Ukończone</th>
+        <th scope="col">Wysyłka</th>
+        <th scope="col">Data ukończenia</th>
+        <th scope="col">Klient</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="" class="link-dark">{{ order.transaction_id}}</a></td>
+        {% if order.complete == True %}   
+        <td class="text-center">Tak</i></td>
+        {% else %}
+        <td class="text-center">Nie</i></td>
+        {% endif %}
+        <td>{{ order.shipment_status}}</td>
+        <td>{{ order.completion_date}}</td>
+        <td><a href="" class="link-dark">{{ order.customer}}</a></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h3>Dane do wysyłki<h3>
+  <p>Email: {{order_address.email}}</p>
+  <p>Nr telefonu: {{order_address.phone}}</p>
+  <p>Imie i nazwisko: {{order_address.name}} {{order_address.last_name }} </p>
+  <p>Ulica i nr domu: {{order_address.street_address}}</p>
+  <p>Kod pocztowy: {{order_address.postcode}}</p>
+  <p>Miasto: {{order_address.city}}</p>
+  <p>Paczkomat: {{order_address.parcel_machine_id}}</p>
+
+  <form method="POST" class="mt-5">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-md-4">
+          {{ form.address|as_crispy_field}}
+      </div>
+      <div class="form-group col-md-3">
+          {{ form.transaction_id|as_crispy_field}}
+      </div>
+      <div class="form-group col-md-3">
+        {{ form.completion_date|as_crispy_field}}
+    </div>
+    <div class="form-group col-md-2">
+      {{ form.shipment_status|as_crispy_field}}
+  </div>
+  <div class="row">
+      <div class="form-group col-md-3">
+          {{ form.payment_in_progress|as_crispy_field}}
+      </div>
+      <div class="form-group col-md-3">
+          {{ form.complete|as_crispy_field}}
+      </div>
+  </div>
+  <div class="form-group col-md-3">
+    <button class="btn btn-outline-primary mb-5" type='submit'>Edytuj</button>
+    </div>
+    </form>
+
+
+</div> 
+</div>
+</div>
+{% endblock %}

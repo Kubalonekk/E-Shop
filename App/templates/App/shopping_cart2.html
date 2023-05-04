@@ -1,0 +1,36 @@
+{% extends 'App/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+<section class="h-100 mt-4" style="background-color: white;">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <form method="POST" action="{% url 'login_page' %}">
+          {% csrf_token %}
+          <div class="row">
+            <div class="form-group col-md-8">
+          {{form|crispy}}
+          <button class="btn btn-outline-primary mb-5 float-end" type='submit'>Zaloguj się</button>
+          </div>
+        </div>
+        </form>
+        
+      </div>
+      <div class="col">
+        <h4>Nie masz konta?</h4>
+        <p>Rejestracja zajmie Ci tylko chwile</p>
+        <div class="row nav-row">
+        <a href="{% url 'address_and_payment' %}"><button class="btn btn-outline-primary mb-2" type='submit'>Kupuję bez logowania</button></a>
+        <a href="{% url 'register' %}"><button class="btn btn-outline-success" type='submit'>Utwórz nowe konto</button></a>
+        </div>
+      </div>
+    </div>
+  
+  </section>
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'App/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="container mt-5">
+    <form method="POST" action="{% url 'dashboard_add_item' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="row">
+        <div class="form-group col-md-4">
+                {{ form.title|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-2">
+                {{ form.price|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-2">
+                {{ form.category|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-2">
+            {{ form.gender|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-4">
+            <label for="form-post">Główne zdjęcie</label>
+            <input type="file" name="main_image" class="form-control mt-2" id="form-post" required>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="form-post">Galeria zdjęć</label>
+            <input type="file" name="images" class="form-control" id="form-post" multiple>
+        </div>
+        <div class="form-group col-md-12">
+            {{ form.description|as_crispy_field}}
+        </div>
+        <button class="btn btn-outline-primary mb-5" type='submit'>Dodaj</button>
+    </div>
+    </form>
+</div>
+
+{% endblock %}

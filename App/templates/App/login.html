@@ -1,0 +1,59 @@
+{% extends 'App/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+
+<section class="vh-100 mb-5" style="background-color: white;">
+  <div class="container py-5 h-100 mb">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <form method="POST">
+              {% csrf_token %}
+            <h3 class="mb-5">Zaloguj się</h3>
+
+            <div class="form-outline mb-4" >
+              {{ form.errors|as_crispy_errors}}
+              <div class="form-control form-control-lg">
+              {{ form.username|as_crispy_field}}
+              </div>
+            </div>
+
+            <div class="form-outline mb-4">
+              <div class="form-control form-control-lg">
+                {{ form.password|as_crispy_field}}
+              </div>
+            </div>
+
+            <!-- Checkbox -->
+            <div class="form-check d-flex justify-content-start mb-4">
+              <div class="grid">
+              <div class="row">
+                <div><label class="form-check-label" for="form1Example3">Nie posiadasz konta? <a href="{% url 'register' %}">Zarejestruj się</a></label></div>
+              </div>
+              {% comment %} <div class="row">
+                <div><label class="form-check-label" for="form1Example3">Zapomniałeś hasła? <a href="{% url 'reset_password' %}">Zresetuj hasło</a></label></div>
+              </div> {% endcomment %}
+            </div>
+          </div>
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Zaloguj się</button>
+
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}
+
+
+
+
