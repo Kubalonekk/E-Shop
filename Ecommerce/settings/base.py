@@ -2,7 +2,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+print("base dir path", BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -13,9 +14,9 @@ with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['kubalonek99.usermd.net', 'www.kubalonek99.usermd.net']
+
 
 # PAYU SECRET
 
@@ -155,9 +156,3 @@ EMAIL_HOST_USER = 'kubalonekk99@gmail.com'
 EMAIL_HOST_PASSWORD = PASSWORD_EMAIL
 EMAIL_USE_TLS = True
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000 # 1 year
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
