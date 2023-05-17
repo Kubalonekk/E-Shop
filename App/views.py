@@ -233,18 +233,18 @@ def get_or_create_customer(request):
     try:
         customer = request.user.customer
     except:
-        device = request.COOKIES['device']
+        device = request.session.get('device')
+        if request.session.get('device') is None:
+            request.session['device'] = str(uuid.uuid4())
+            device = request.session.get('device')              
         customer, created = Customer.objects.get_or_create(device=device)
     return customer
 
 
 def shopping_cart(request):
     customer = get_or_create_customer(request)
-    try:
-        order = Order.objects.get(customer=customer, complete=False)
-    except Order.DoesNotExist:
-        messages.warning(request, 'Nie posiadasz zamowienia')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    order, created = Order.objects.get_or_create(
+        customer=customer, complete=False)
     if request.method == "POST":
         cupon = request.POST.get('cupon')
         cupon = cupon.upper()
@@ -365,7 +365,7 @@ def register(request):
             login(request, authenticated_user)
             messages.success(request, 'Pomyślnie założno konto')
             try:
-                device = request.COOKIES['device']
+                device = request.session.get('device')
                 customer = Customer.objects.get(device=device)
                 order = Order.objects.get(customer=customer, complete=False)
                 order.customer = NewCustomer
