@@ -57,9 +57,9 @@
           </tr>
         </thead>
         <tbody>
-        {% for order in orders %}
+        {% for order in page_obj %}
           <tr>
-            <th scope="row">{{ forloop.counter }}</th>
+            <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
             <td><a href="{% url 'dashboard_order' order.id %}" class="link-dark">{{ order.transaction_id}}</a></td>
             {% if order.complete == True %}   
             <td class="text-center">Tak</i></td>
@@ -74,6 +74,23 @@
         {% endfor %}
         </tbody>
       </table>
+      <div class="post-block text-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <aclass="link-dark" href="?page=1">&laquo; Pierwsza</a>
+                <a class="link-dark" href="?page={{ page_obj.previous_page_number }}">Wcześniejsza</a>
+            {% endif %}
+    
+            <span class="current">
+                Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a class="link-dark" href="?page={{ page_obj.next_page_number }}">Następna</a>
+                <a class="link-dark" href="?page={{ page_obj.paginator.num_pages }}">Ostatnia &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
 </div>
 

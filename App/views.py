@@ -12,6 +12,7 @@ from anyascii import anyascii
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator
 from .forms import *
 import requests
 import json
@@ -204,12 +205,13 @@ def product(request, slug):
             item_variant = ItemVariant.objects.get(item=product)
             orderItem, created = OrderItem.objects.get_or_create(
                 order=order, item=product)
-        orderItem.quantity += int(quanity)
         if item_variant.amount_in_stock < int(quanity):
+            if orderItem.quantity == 0:
+                orderItem.delete()
             messages.success(
                 request, f"Nie udało się dodać przedmiotu do koszyka, dostępna ilość: {item_variant.amount_in_stock}")
-            orderItem.delete()
             return redirect('product', slug)
+        orderItem.quantity += int(quanity)
         orderItem.save()
         messages.success(request, 'Pomyślnie dodano przedmiot do koszyka')
         return redirect('product', slug)
@@ -470,9 +472,12 @@ def dashboard_orders(request):
 
     myFilter = OrderFilter(request.GET, queryset=orders)
     orders = myFilter.qs
+    paginator = Paginator(orders, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        'orders': orders,
+        'page_obj': page_obj,
         'myFilter': myFilter,
     }
 

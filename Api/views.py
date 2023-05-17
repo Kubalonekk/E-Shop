@@ -27,11 +27,10 @@ def get_or_create_customer(request):
     try:
         customer = request.user.customer
     except:
-        try:
-            device = request.COOKIES['device']
-            customer, created = Customer.objects.get_or_create(device=device)
-        except:
-            customer = Customer.objects.get(device="67dab2dd-d763-4a0f-9f2b-2ff684cc81e7")
+        # Only to test with postman
+        # device = request.COOKIES['device']
+        # customer, created = Customer.objects.get_or_create(device=device)
+        customer, created = Customer.objects.get_or_create(device="67dab2dd-d763-4a0f-9f2b-2ff684cc81e7")
     return customer
 
 
