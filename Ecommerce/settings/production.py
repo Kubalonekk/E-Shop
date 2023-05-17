@@ -4,6 +4,9 @@ from .base import *
 ALLOWED_HOSTS = ['kubalonek99.usermd.net', 'www.kubalonek99.usermd.net']
 
 
+
+
+
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True

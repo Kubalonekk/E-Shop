@@ -1,0 +1,41 @@
+{% extends 'App/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <ul id="items">
+        <!-- lista przedmiotów będzie tutaj wyświetlana przez JavaScript -->
+      </ul>
+      
+      <form id="add-item-form">
+        <div>
+          <label for="item-name">Nazwa:</label>
+          <input type="text" id="item-name" name="name">
+        </div>
+        <div>
+          <label for="item-description">Opis:</label>
+          <textarea id="item-description" name="description"></textarea>
+        </div>
+        <button type="submit">Dodaj przedmiot</button>
+      </form>
+      
+
+
+
+<script src="{% static 'js/test.js' %}"></script> 
+<script src="https://code.jquery.com/jquery-3.7.0.slim.js" integrity="sha256-7GO+jepT9gJe9LB4XFf8snVOjX3iYNb0FHYr5LI1N5c=" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+{% endblock %}
