@@ -57,6 +57,8 @@
           </tr>
         </thead>
         <tbody>
+        <form method="POST" action="{% url 'Dashboard:dashboard_orders'%}">
+          {% csrf_token %}
         {% for order in page_obj %}
           <tr>
             <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
@@ -69,12 +71,16 @@
             <td>{{ order.shipment_status}}</td>
             <td>{{ order.completion_date}}</td>
             <td><a href="" class="link-dark">{{ order.customer}}</a></td>
+            <td><input type="checkbox" name="check" value="{{order.id}}" multiple></td>
 
           </tr>
+          
         {% endfor %}
         </tbody>
       </table>
-      <div class="post-block text-center">
+      <button class="btn btn-outline-danger mb-5 float-end" type='submit'>Usuń</button>
+    </form>
+      <div class="post-block text-center mb-5">
         <span class="step-links">
             {% if page_obj.has_previous %}
                 <aclass="link-dark" href="?page=1">&laquo; Pierwsza</a>

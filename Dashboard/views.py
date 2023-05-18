@@ -11,7 +11,15 @@ from django.shortcuts import get_object_or_404, redirect
 
 def dashboard_orders(request):
     orders = Order.objects.all()
-
+    if request.method == "POST":
+        objects = request.POST.getlist('check')
+        if not objects:
+            messages.warning(request, 'Prosze wybrać zamowienie')
+        else:      
+            for d in objects:
+                order = Order.objects.get(id=d)
+                order.delete()
+            messages.success(request, 'Pomyślnie usunieto zamowienie/a')
     myFilter = OrderFilter(request.GET, queryset=orders)
     orders = myFilter.qs
     paginator = Paginator(orders, 10)
