@@ -240,27 +240,35 @@ def get_or_create_customer(request):
         customer, created = Customer.objects.get_or_create(device=device)
     return customer
 
+def get_cupon(request, cupon, order):
+    cupon = cupon.upper()
+    try:
+        get_cupon = Cupon.objects.get(name=cupon, active=True)
+        if  order.cupon == get_cupon:
+            messages.success(request, 'Posiadasz już ten kod rabatowy')
+            return
+        order.cupon = get_cupon
+        order.save()
+        messages.success(request, 'Pomyślnie dodano kod rabatowy')
+    except:
+        messages.warning(request, 'Nie istnieje taki kod rabatowy')
+    return
+    
+
 
 def shopping_cart(request):
     customer = get_or_create_customer(request)
+    cupons = Cupon.objects.filter(display_on_page=True)
     order, created = Order.objects.get_or_create(
         customer=customer, complete=False)
     if request.method == "POST":
         cupon = request.POST.get('cupon')
-        cupon = cupon.upper()
-
-        try:
-            get_cupon = Cupon.objects.get(name=cupon)
-            order.cupon = get_cupon
-            order.save()
-            messages.success(request, 'Pomyślnie dodano kod rabatowy')
-        except:
-            messages.warning(request, 'Nie istnieje taki kod rabatowy')
+        cupon = get_cupon(request, cupon, order)
     ordered_items = OrderItem.objects.filter(order=order)
-
     context = {
         'order': order,
         'ordered_items': ordered_items,
+        'cupons': cupons,
 
     }
 

@@ -2,6 +2,14 @@
 {% load static %}
 
 {% block content %}
+{% for cupon in cupons %}
+{% if cupon.active == True and  cupon.display_on_page == True %}
+<div class="alert alert-warning" role="alert">
+  <div class="d-flex justify-content-center">Kupon {{cupon.name}} - {{cupon.discount}}% zniżki na całe zamowienie</div>
+</div>
+{% endif %}
+{% endfor %}
+
 
 <section class="h-100" style="background-color: white;">
   <div class="container h-100 py-5">

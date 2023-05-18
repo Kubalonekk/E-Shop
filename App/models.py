@@ -141,6 +141,8 @@ class ItemImages(models.Model):
 class Cupon(models.Model):
     name = models.CharField(max_length=30)
     discount = models.IntegerField(help_text="Wartość procentowa kuponu")
+    active = models.BooleanField(default=False)
+    display_on_page = models.BooleanField(default=False)
 
     def __str__(self):
         return f"KOD: {self.name}, zniża: {self.discount}%"
