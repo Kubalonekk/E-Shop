@@ -5,7 +5,7 @@
 
 
 <div class="container mt-5">
-    <form method="POST" action="{% url 'dashboard_add_item' %}" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'Dashboard:dashboard_add_item' %}" enctype="multipart/form-data">
         {% csrf_token %}
     <div class="row">
         <div class="form-group col-md-4">

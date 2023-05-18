@@ -43,7 +43,7 @@
                     </li>
                     {% if request.user.is_staff %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Dashboard:dashboard_orders' %}">Dashboard</a>
+                        <a class="nav-link" href="{% url 'dashboard_orders' %}">Dashboard</a>
                     </li>
                     {% else %}
                     {% endif %}

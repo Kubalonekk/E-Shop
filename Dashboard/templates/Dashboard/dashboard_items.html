@@ -7,14 +7,14 @@
 
 <ul class="nav nav-pills nav-fill mt-4">
     <li class="nav-item">
-      <a class="nav-link btn-outline-success" href="{% url 'dashboard_orders' %}">Zamowienia</a>
+      <a class="nav-link btn-outline-success" href="{% url 'Dashboard:dashboard_orders' %}">Zamowienia</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link btn-outline-success" href="{% url 'dashboard_items'%}">Przedmioty</a>
+      <a class="nav-link btn-outline-success" href="{% url 'Dashboard:dashboard_items'%}">Przedmioty</a>
     </li>
 </ul>
     
-    <form method="GET" action="{% url 'dashboard_items' %}" class="mt-2">
+    <form method="GET" action="{% url 'Dashboard:dashboard_items' %}" class="mt-2">
         <div class="row">
             <div class="form-group col-md-4">
                 {{ myFilter.form.title|as_crispy_field }}
@@ -40,7 +40,7 @@
     </form>
 
 
-    <a href="{% url 'dashboard_add_item' %}"><button class="btn btn-outline-primary mb-1" type='submit'>Dodaj przedmiot</button></a>
+    <a href="{% url 'Dashboard:dashboard_add_item' %}"><button class="btn btn-outline-primary mb-1" type='submit'>Dodaj przedmiot</button></a>
     <table class="table mt-4">
         <thead>
           <tr>
@@ -63,7 +63,7 @@
             <td>{{item.category}}</td>
             <td>{{ item.gender}}</td>
             <td><a href=""><button class="btn btn-outline-primary mb-1" type='submit'>Edytuj</button></a></td>
-            <td><a href="{% url 'dashboard_add_stock_item' item.id %}"><button class="btn btn-outline-primary mb-1" type='submit'>Dodaj stock</button></a></td>
+            <td><a href="{% url 'Dashboard:dashboard_add_stock_item' item.id %}"><button class="btn btn-outline-primary mb-1" type='submit'>Dodaj stock</button></a></td>
           </tr>
         {% endfor %}
         </tbody>

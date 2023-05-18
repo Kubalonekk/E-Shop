@@ -7,14 +7,14 @@
 
 <ul class="nav nav-pills nav-fill mt-4">
     <li class="nav-item">
-      <a class="nav-link btn-outline-success" href="{% url 'dashboard_orders' %}">Zamowienia</a>
+      <a class="nav-link btn-outline-success" href="{% url 'Dashboard:dashboard_orders' %}">Zamowienia</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link btn-outline-success" href="{% url 'dashboard_items'%}">Przedmioty</a>
+      <a class="nav-link btn-outline-success" href="{% url 'Dashboard:dashboard_items'%}">Przedmioty</a>
     </li>
 </ul>
     
-    <form method="GET" action="{% url 'dashboard_orders' %}" class="mt-2">
+    <form method="GET" action="{% url 'Dashboard:dashboard_orders' %}" class="mt-2">
         <div class="row">
             <div class="form-group col-md-4">
                 {{ myFilter.form.order_id|as_crispy_field }}
@@ -60,7 +60,7 @@
         {% for order in page_obj %}
           <tr>
             <th scope="row">{{ page_obj.start_index|add:forloop.counter0 }}</th>
-            <td><a href="{% url 'dashboard_order' order.id %}" class="link-dark">{{ order.transaction_id}}</a></td>
+            <td><a href="{% url 'Dashboard:dashboard_order' order.id %}" class="link-dark">{{ order.transaction_id}}</a></td>
             {% if order.complete == True %}   
             <td class="text-center">Tak</i></td>
             {% else %}

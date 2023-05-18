@@ -47,21 +47,3 @@ class DeliveryAddressForm(forms.ModelForm):
         model = AddressInformation
         exclude = ['customer']
 
-
-class EditOrderForm(forms.ModelForm):
-
-    class Meta:
-        model = Order
-        exclude = ['customer', 'date_ordered',]
-
-
-class AddItemForm(forms.ModelForm):
-    class Meta:
-        model = Item
-        exclude = ['slug']
-
-
-class AddItemVariantForm(forms.ModelForm):
-    class Meta:
-        model = ItemVariant
-        exclude = ['color']

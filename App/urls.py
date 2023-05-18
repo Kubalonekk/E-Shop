@@ -29,20 +29,6 @@ urlpatterns = [
          name='address_and_payment'),
     path('payment_check/', views.payment_check, name="payment_successful"),
     path('remove_cupon/<int:id>/', views.remove_cupon, name="remove_cupon"),
-
-    # dashboard
-    path('dashboard/orders/', views.dashboard_orders, name="dashboard_orders"),
-    path('dashboard/order/<int:id>/',
-         views.dashboard_order, name="dashboard_order"),
-    path('dashboard/items/', views.dashboard_items, name="dashboard_items"),
-    path('dashboard/item/<int:id>/', views.dashboard_item, name="dashboard_item"),
-    path('dashboard/add_item/', views.dashboard_add_item,
-         name="dashboard_add_item"),
-    path('dashboard/edit_item/<int:id>/',
-         views.dashboard_edit_item, name="dashboard_edit_item"),
-    path('dashboard/add_stock_item/<int:id>/',
-         views.dashboard_add_stock_item, name="dashboard_add_stock_item"),
-
     # accounts
     path('register/', views.register, name='register'),
     path('signout/', views.signout, name="signout"),
