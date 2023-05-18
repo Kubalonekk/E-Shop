@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     'requests',
     'django_filters',
+    'storages',
     'rest_framework',
 ]
 
@@ -156,4 +157,22 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'kubalonekk99@gmail.com'
 EMAIL_HOST_PASSWORD = PASSWORD_EMAIL
 EMAIL_USE_TLS = True
+
+
+# s3bucket aws
+
+with open(os.path.join(BASE_DIR, 'AWS_SECRET_KEY.txt')) as f:
+    AWS_SECRET_KEY = f.read().strip()
+    
+with open(os.path.join(BASE_DIR, 'AWS_ACCESS_KEY.txt')) as f:
+    AWS_ACCESS_KEY = f.read().strip()
+
+
+AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME = 'ecommerce-online-main'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_QUERYSTRING_AUTH = False
 
