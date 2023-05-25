@@ -74,7 +74,7 @@ def add_item_to_order(request, slug):
     order, created = Order.objects.get_or_create(
         customer=customer, complete=False)
     orderItem, created = OrderItem.objects.get_or_create(
-        order=order, item=item)
+        order=order, item=item, item_variant=item_variant)
     if 'quantity' not in request.POST:
         orderItem.quantity += 1
     else:

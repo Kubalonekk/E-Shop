@@ -103,8 +103,9 @@ def add_item_to_order(request, slug):
         customer = get_or_create_customer(request)
     order, created = Order.objects.get_or_create(
         customer=customer, complete=False)
+    print('dupa')
     orderItem, created = OrderItem.objects.get_or_create(
-        order=order, item=item)
+        order=order, item=item, item_variant=item_variant)
     orderItem.quantity += 1
     if item_variant.amount_in_stock < 1:
         return Response({"message": "Produkt niedostępny"}, status=HTTP_400_BAD_REQUEST)
