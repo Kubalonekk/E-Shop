@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'storages',
     'rest_framework',
     'Dashboard',
+    'Api',
 ]
 
 MIDDLEWARE = [

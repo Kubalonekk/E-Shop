@@ -140,12 +140,12 @@ def dashboard_add_stock_item(request, id):
                     request, 'Taki stock już istnieje, zsumowano ilość')
                 d.amount_in_stock += amount_in_stock
                 d.save()
-                return redirect('dashboard_add_stock_item', id)
+                return redirect('Dashboard:dashboard_add_stock_item', id)
             except:
 
                 new_item_variant.save()
                 messages.success(request, 'Pomyślnie dodano stock')
-                return redirect('dashboard_add_stock_item', id)
+                return redirect('Dashboard:dashboard_add_stock_item', id)
         else:
             messages.warning(request, 'Coś poszło nie tak')
     else:

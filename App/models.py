@@ -74,6 +74,8 @@ class Item(models.Model):
     gender = models.CharField(max_length=5, choices=GENDER_CHOICES, null=True)
     description = models.TextField(null=True)
     slug = models.SlugField(max_length=50, blank=True, null=True)
+    main_img = models.ImageField(null=True)
+    
 
     def save(self, *args, **kwargs):
         # Overrides the basic save method, adding a slug field if it doesn't exist and checks
@@ -134,7 +136,6 @@ class ItemVariant(models.Model):
 class ItemImages(models.Model):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, related_name="item_images")
-    main = models.BooleanField(default=False)
     img = models.ImageField(null=True)
 
 

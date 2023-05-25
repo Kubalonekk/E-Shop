@@ -186,7 +186,6 @@ def contact(request):
 
 def product(request, slug):
     product = Item.objects.get(slug=slug)
-    main_image = product.item_images.get(main=True)
     images = product.item_images.all
     sizes = ItemSize.objects.filter(
         item_size__item=product, item_size__amount_in_stock__gte=1)
@@ -220,7 +219,6 @@ def product(request, slug):
         pass
     context = {
         "product": product,
-        'main_image': main_image,
         'images': images,
         'sizes': sizes,
 

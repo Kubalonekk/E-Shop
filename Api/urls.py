@@ -4,6 +4,7 @@ from django.urls import path, include
 from . import views
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 app_name = 'Api'
 
@@ -26,6 +27,10 @@ urlpatterns = [
     path('order/', views.order, name="order"),
     path('cupon/', views.cupon, name="cupon"),
     path('categories/<str:gender>/', views.categories, name='categories'),
+    
+    
+    path("cart/", TemplateView.as_view(template_name='Api/cart.html'))
+    
      
        
      

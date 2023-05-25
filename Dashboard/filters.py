@@ -26,7 +26,7 @@ class ItemFilter(django_filters.FilterSet):
 
     class Meta:
         model = Item
-        exclude = ['description', 'slug']
+        exclude = ['description', 'slug', 'main_img']
 
 
 class OrderFilter(django_filters.FilterSet):

@@ -183,22 +183,23 @@ def add_single_item_to_cart(request, id):
 
 @api_view(['PUT','DELETE'])
 def single_item_cart(request, id):
+    customer = get_or_create_customer(request)
     orderItem = OrderItem.objects.get(id=id)
     if request.method == "PUT":
         orderItem.quantity += 1
         orderItem.save()
         serializer = OrderItemSerializer(orderItem, many=False)
-        return Response({"message": "Pomyślnie dodano przedmiot do koszyka"}, status=HTTP_200_OK)
+        return Response({"message": "Pomyślnie dodano przedmiot do koszyka", 'data': serializer.data,}, status=HTTP_200_OK)
     else:
         orderItem.quantity -= 1
         orderItem.save()
         if orderItem.quantity == 0:
             orderItem.delete()
             serializer = OrderItemSerializer(orderItem, many=False)
-            return Response({"message": "Usunięto przedmiot z koszyka"}, status=HTTP_200_OK)
+            return Response({"message": "Usunięto przedmiot z koszyka", 'data': serializer.data,}, status=HTTP_200_OK)
         else:
             serializer = OrderItemSerializer(orderItem, many=False)
-            return Response({"message": "Usunięto przedmiot z koszyka"}, status=HTTP_200_OK)
+            return Response({"message": "Usunięto przedmiot z koszyka", 'data': serializer.data,}, status=HTTP_200_OK)
 
 
 
@@ -207,7 +208,7 @@ def remove_item_from_cart(request, id):
     orderItem = OrderItem.objects.get(id=id)
     orderItem.delete()
     serializer = OrderItemSerializer(orderItem, many=False)
-    return Response(serializer.data, status=HTTP_200_OK)
+    return Response({"message": "Usunięto przedmiot z koszyka", 'data': serializer.data,}, status=HTTP_200_OK)
 
 
 @api_view(['GET'])

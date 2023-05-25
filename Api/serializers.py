@@ -7,6 +7,13 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = '__all__'
         depth = 2
+        
+class ItemVariantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ItemVariant
+        fields = '__all__'
+        depth = 2
+
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -44,11 +51,12 @@ class OrderSerializer(serializers.ModelSerializer):
     get_cart_total_without_cupon = serializers.SerializerMethodField()
     get_cart_total = serializers.SerializerMethodField()
     get_cupon_value = serializers.SerializerMethodField()
+    get_cart_objects_quantity = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = ('id', 'customer', 'address', 'date_ordered', 'complete', 'transaction_id', 'payment_in_progress',
-                  'completion_date', 'get_cart_total_without_cupon', 'shipment_status', 'cupon', 'get_cart_total', 'get_cupon_value')
+                  'completion_date', 'get_cart_total_without_cupon', 'shipment_status', 'cupon', 'get_cart_total', 'get_cupon_value', 'get_cart_objects_quantity')
 
     def get_cart_total_without_cupon(self, object):
         return object.get_cart_total_without_cupon()
@@ -58,6 +66,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_cupon_value(self, object):
         return object.get_cupon_value()
+    
+    def get_cart_objects_quantity(self, object):
+        return object.get_cart_objects_quantity()
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -65,7 +76,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItem
-        fields = ('item', 'order', 'quantity',
+        fields = ('id','item', 'order', 'quantity',
                   'date_added', 'get_total', 'item_variant')
         depth = 2
 
