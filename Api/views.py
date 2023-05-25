@@ -9,7 +9,7 @@ from rest_framework.filters import SearchFilter
 from .filters import *
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_403_FORBIDDEN
 import requests
 from django.http import HttpResponse
 
@@ -221,7 +221,7 @@ def sizes(request, slug):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@api_view(['POST','PUT'])
+@api_view(['POST', 'DELETE'])
 def cupon(request):
     customer = get_or_create_customer(request)
     order = Order.objects.get(customer=customer, complete=False)
@@ -230,17 +230,18 @@ def cupon(request):
         cupon = cupon.upper()
         try:
             get_cupon = Cupon.objects.get(name=cupon)
+            if order.cupon == get_cupon:
+                return Response({"message": "Posiadasz już ten kupon"}, status=HTTP_403_FORBIDDEN)     
             order.cupon = get_cupon
             order.save()
             return Response({"message": "Dodano kupon"}, status=HTTP_200_OK)
         except:
-            return Response({"message": "Nie ma takiego kuponu"}, status=HTTP_404_NOT_FOUND)
-    elif request.method == "PUT":    
-        if order.cupon == None:
-            return Response({"message": "Żaden kupon nie jest przypisany do zamowienia"}, status=HTTP_404_NOT_FOUND)
+            return Response({"message": "Nie ma takiego kuponu"}, status=HTTP_404_NOT_FOUND) 
+    else:
         order.cupon = None
         order.save()
-        return Response({"message": "Usunięto kupon z zamowienia"}, status=HTTP_200_OK)
+        return Response({"message": "Usunięto kupon"}, status=HTTP_200_OK)
+        
     
 @api_view(['GET'])
 def categories(request, gender):

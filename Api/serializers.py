@@ -7,13 +7,13 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = '__all__'
         depth = 2
-        
+
+
 class ItemVariantSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemVariant
         fields = '__all__'
         depth = 2
-
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -48,40 +48,31 @@ class CuponSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    get_cart_total_without_cupon = serializers.SerializerMethodField()
-    get_cart_total = serializers.SerializerMethodField()
-    get_cupon_value = serializers.SerializerMethodField()
-    get_cart_objects_quantity = serializers.SerializerMethodField()
+    cart_total_without_cupon = serializers.DecimalField(source="get_cart_total_without_cupon", max_digits=6, decimal_places=2)
+    cart_total = serializers.DecimalField(source="get_cart_total", max_digits=6, decimal_places=2)
+    cupon_value = serializers.DecimalField(source="get_cupon_value", max_digits=6, decimal_places=2)
+    get_cart_objects_quantity = serializers.DecimalField(
+        max_digits=6, decimal_places=26)
 
     class Meta:
         model = Order
+        depth = 2
         fields = ('id', 'customer', 'address', 'date_ordered', 'complete', 'transaction_id', 'payment_in_progress',
-                  'completion_date', 'get_cart_total_without_cupon', 'shipment_status', 'cupon', 'get_cart_total', 'get_cupon_value', 'get_cart_objects_quantity')
+                  'completion_date', 'cart_total_without_cupon', 'shipment_status', 'cupon', 'cart_total', 'cupon_value', 'get_cart_objects_quantity')
 
-    def get_cart_total_without_cupon(self, object):
-        return object.get_cart_total_without_cupon()
-
-    def get_cart_total(self, object):
-        return object.get_cart_total()
-
-    def get_cupon_value(self, object):
-        return object.get_cupon_value()
-    
     def get_cart_objects_quantity(self, object):
         return object.get_cart_objects_quantity()
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    get_total = serializers.SerializerMethodField()
+    total = serializers.DecimalField(source="get_total", max_digits=6, decimal_places=2)
 
     class Meta:
         model = OrderItem
-        fields = ('id','item', 'order', 'quantity',
-                  'date_added', 'get_total', 'item_variant')
+        fields = ('id', 'item', 'order', 'quantity',
+                  'date_added', 'total', 'item_variant')
         depth = 2
 
-    def get_total(self, object):
-        return object.get_total()
 
 
 class ItemImagesSerializer(serializers.ModelSerializer):
