@@ -114,7 +114,6 @@
             e.preventDefault();
             var product_quanity = $("#product-quanity").val();
             var product_size = $("#size").val();
-            console.log(product_size)
             var slug = $(this).attr('data');
             $.ajax({
               url: `http://127.0.0.1:8000/api/product/${slug}/`,

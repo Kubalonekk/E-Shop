@@ -1,5 +1,5 @@
 # E-shop
-E-shop is an online Python Ecommerce website built with Django, SQLite and Bootstrap. It is integrated with PAYU Sandbox and Inpost Sandbox API. 
+E-shop is an online Python Ecommerce website built with Django, Django REST framework, SQLite, Bootstrap and jQuery. It is integrated with PAYU Sandbox and Inpost Sandbox API. 
 Live demo [_here_](https://kubalonek99.usermd.net/).
 
 ![alt text](https://github.com/Kubalonekk/E-shop/blob/main/products.PNG?raw=true)
@@ -22,6 +22,7 @@ The project was created for training purposes
 - Bootstrap - version 5.3
 - django-crispy-forms 2.0.0
 - django-filter - 23.1
+- jQuery - 3.7.0
 
 
 ## Features

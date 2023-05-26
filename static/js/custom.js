@@ -23,10 +23,7 @@ function ItemsCount(){
 
 function Alert(){
   var message = JSON.parse(localStorage.getItem('message'));
-  if (message === null) {
-    console.log("pustka")
-  } else {
-    console.log(message)
+  if (message !== null) {
     var alert = `
       <div id="alert_object" class="alert alert-${message.type}" role="alert">
         ${message.message}
@@ -35,14 +32,11 @@ function Alert(){
     $('#alert').empty().append(alert);
     $('#alert_object').delay(3000).fadeOut('slow');
     localStorage.removeItem('message');
-  }
-
+  } 
 }
 
 
 function getData(){
-
-    var tablica = [];
     $.ajax({
         url: 'http://127.0.0.1:8000/api/shopping_cart/',
         type: 'GET',
@@ -278,15 +272,13 @@ $(document).on('click', '#delete_cupon', function(e){
   });
 })
 
-var url = "http://127.0.0.1:8000/"
 
 
 $(document).on('click', '#cuponButton', function(e){
   e.preventDefault();
   var cupon = $("#form1").val();
-  console.log(cupon);
   $.ajax({
-    url: `${url}api/cupon/`,
+    url: `http://127.0.0.1:8000/api/cupon/`,
     type: 'POST',
     headers: {'X-CSRFToken': csrftoken},
     mode: 'same-origin',
