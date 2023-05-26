@@ -97,7 +97,7 @@
                             <div class="row pb-3">
             
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Dodaj do koszyka</button>
+                                    <button type="submit" class="btn btn-success btn-lg" id="add_to_cart" data="{{ product.slug }}" name="submit" value="addtocard">Dodaj do koszyka</button>
                                 </div>
                             </div>
                         </form>
@@ -108,6 +108,43 @@
         </div>
     </div>
 </section>
+    <script>
+
+        $(document).on('click', '#add_to_cart', function(e){
+            e.preventDefault();
+            var product_quanity = $("#product-quanity").val();
+            var product_size = $("#size").val();
+            console.log(product_size)
+            var slug = $(this).attr('data');
+            $.ajax({
+              url: `http://127.0.0.1:8000/api/product/${slug}/`,
+              type: 'POST',
+              headers: {'X-CSRFToken': csrftoken},
+              mode: 'same-origin',
+              data: `product-quanity=${product_quanity}&product-size=${product_size}`,
+              processData: false,
+              success: function(response, xhr){
+                $("#product-quanity").val("1");
+                ItemsCount()
+                SetMessage(response, xhr);
+                Alert();
+          
+                
+              },
+              error: function(response, xhr) {
+                $('#product-quanity').val("1");
+                SetMessage(response, xhr);
+                Alert();
+                  
+          
+              }
+          
+          });
+          });
+          
+
+
+    </script>
 <!-- Close Content -->
 
 

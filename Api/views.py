@@ -94,16 +94,15 @@ def add_item_to_order(request, slug):
         if item_variant.size == None and item_variant.color == None:
             pass
         else:
-            return Response({"message": "Prosze wybrac rozmiar/kolor"}, status=HTTP_400_BAD_REQUEST)
+            return Response({"message": "Prosze wybrac rozmiar/kolor", "slug": slug,}, status=HTTP_400_BAD_REQUEST)
     except:
-        return Response({"message": "Prosze wybrac rozmiar/kolor"}, status=HTTP_400_BAD_REQUEST)
+        return Response({"message": "Prosze wybrac rozmiar/kolor",  "slug": slug,}, status=HTTP_400_BAD_REQUEST)
     try:
         customer = request.user.customer
     except:
         customer = get_or_create_customer(request)
     order, created = Order.objects.get_or_create(
         customer=customer, complete=False)
-    print('dupa')
     orderItem, created = OrderItem.objects.get_or_create(
         order=order, item=item, item_variant=item_variant)
     orderItem.quantity += 1
@@ -133,7 +132,7 @@ def product(request, slug):
         except:
             item_variant = ItemVariant.objects.get(item=product)
             orderItem, created = OrderItem.objects.get_or_create(
-                order=order, item=product)
+                order=order, item=product, item_variant=item_variant)
         if item_variant.amount_in_stock < int(quanity):
             if orderItem.quantity == 0:
                 orderItem.delete()

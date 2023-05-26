@@ -4,6 +4,7 @@ from django.urls import path, include
 from . import views
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -17,7 +18,7 @@ urlpatterns = [
     path('product/<str:slug>/', views.product, name='product'),
     path('add_item_to_order/<str:slug>/',
          views.add_item_to_order, name='add_item_to_order'),
-    path('shopping_cart/', views.shopping_cart, name='shopping_cart'),
+    path("shopping_cart/", TemplateView.as_view(template_name='Api/cart.html'), name='shopping_cart'),
     path('add_single_item_to_cart/<int:id>/',
          views.add_single_item_to_cart, name="add_single_item_to_cart"),
     path('remove_single_item_from_cart/<int:id>/',

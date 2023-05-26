@@ -1,112 +1,53 @@
 {% extends 'App/base.html' %}
 {% load static %}
+    
 
 {% block content %}
-{% for cupon in cupons %}
-{% if cupon.active == True and  cupon.display_on_page == True %}
-<div class="alert alert-warning" role="alert">
-  <div class="d-flex justify-content-center">Kupon {{cupon.name}} - {{cupon.discount}}% zniżki na całe zamowienie</div>
-</div>
-{% endif %}
-{% endfor %}
-
-
 <section class="h-100" style="background-color: white;">
-  <div class="container h-100 py-5">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-10">
+    <div class="container h-100 py-5">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-10">
+  
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-normal mb-0 text-black">Koszyk</h3>
+          </div>
+          <div id="products">
+        
+          </div>
+          <div id="summary">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0 text-black">Koszyk</h3>
-        </div>
-        {% for item in ordered_items %}
-        <div class="card rounded-3 mb-4">
-          <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-              <div class="col-md-2 col-lg-2 col-xl-2">
-                {% for dd in item.item.item_images.all %}
-                {% if dd.main == True %}
-                <img
-                  src="{{dd.img.url}}"
-                  class="img-fluid rounded-3" alt="Cotton T-shirt">
-                {% else %}
-                {% endif %}
-                {% endfor %}
+          </div>
+          <form method="POST" >
+            {% csrf_token %}
+          <div class="card mb-4">
+            <div class="card-body p-4 d-flex flex-row">
+              <div class="form-outline flex-fill">
+                <input type="text" id="form1" name="cupon" class="form-control form-control-lg" />
+                <label class="form-label" for="form1">Kod rabatowy</label>
               </div>
-              <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2"><a  class="text-dark" href="{% url 'product' item.item.slug %}">{{ item.item.title }}</a></p>
-                {% if item.item_variant == None %}
-                <p><span class="text-muted"></span>
-                {% else %}
-                <p><span class="text-muted">Rozmiar: </span>{{item.item_variant.size}}
-                {% endif %}
-              </div>
-              
-              <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                <a href="{% url 'remove_single_item_from_cart' item.id %}"><i class="fas fa-minus m-1"></i></a>
-                <p>{{item.quantity}}</p>
-              <a href="{% url 'add_single_item_to_cart' item.id %}"><i class="fas fa-plus m-1"></i></a>
-              </div>
-              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">{{item.get_total}} PLN</h5>
-              </div>
-              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="{% url 'remove_item_from_cart' item.id %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-              </div>
+              <button type="submit" id="cuponButton" class="btn btn-outline-warning btn-lg ms-3">Dodaj</button>
+            </div>
+          </form>
+          </div>
+  
+  
+          <div class="card">
+            <div class="card-body">
+              <a href="{% url 'shopping_cart2' %}"><button type="button" class="btn btn-warning btn-block btn-lg">Dalej</button></a>
             </div>
           </div>
+  
         </div>
-        {% endfor %}
-
-        <div class="card rounded-3 mb-4">
-          <div class="card-body p-4">
-            {% if order.cupon %}
-            <div>
-              <div class="d-inline">Suma</div>
-              <div class="d-inline float-end pr-5">{{order.get_cart_total_without_cupon}} PLN</div>
-            </div>
-            <div>
-              <div class="d-inline">Kupon: {{order.cupon.name}} <a href="{% url 'remove_cupon' order.id %}" class="text-danger"><i class="fas fa-trash fa-xs"></i></a></div>
-              <div class="d-inline float-end pr-5 text-danger">- {{order.get_cupon_value}} PLN</div>
-            </div>
-            
-            <div>
-              <div class="d-inline">Do zapłaty</div>
-              <div class="d-inline float-end pr-5"> {{order.get_cart_total}} PLN</div>
-            </div>
-            {% else %}
-            <div>
-              <div class="d-inline">Do zapłaty</div>
-              <div class="d-inline float-end pr-5"> {{order.get_cart_total}} PLN</div>
-            </div>
-            {% endif %}
-          </div>
-        </div>
-        <form method="POST" action="{% url 'shopping_cart' %}">
-          {% csrf_token %}
-        <div class="card mb-4">
-          <div class="card-body p-4 d-flex flex-row">
-            <div class="form-outline flex-fill">
-              <input type="text" id="form1" name="cupon" class="form-control form-control-lg" />
-              <label class="form-label" for="form1">Kod rabatowy</label>
-            </div>
-            <button type="submit" class="btn btn-outline-warning btn-lg ms-3">Dodaj</button>
-          </div>
-        </form>
-        </div>
-
-
-        <div class="card">
-          <div class="card-body">
-            <a href="{% url 'shopping_cart2' %}"><button type="button" class="btn btn-warning btn-block btn-lg">Dalej</button></a>
-          </div>
-        </div>
-
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
+
+
+  <script>
+      getData()
+      GetSummary()
+  </script>
 
 
 

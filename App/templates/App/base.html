@@ -32,13 +32,19 @@
 </head>
 <body>
    {% include 'App/navbar.html' %}
-
-
-   
-   <div class="container">
+   <style>
+    #fixedContainer {
+        position: fixed;
+        width: 600px;
+        height: 200px;
+        left: 50%;
+        top: 0%;
+        margin-left: -300px; /*half the width*/
+      }
     
-
-    {% if messages %}
+   </style>
+   <div class="container">
+   {% if messages %}
     <ul class="messages mt-2">
         {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">
@@ -47,6 +53,12 @@
         {% endfor %}
     </ul>
     {% endif %}
+    </div>
+   
+   <div class="container fixed-top" style="margin-top: 0.5%">
+    <ul id="alert" class="messages">
+
+    </ul>
     </div>
 
     
@@ -59,7 +71,9 @@
     {% include 'App/footer.html' %}
     </div>
 
-
+    <script>
+        Alert();
+    </script>
     <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

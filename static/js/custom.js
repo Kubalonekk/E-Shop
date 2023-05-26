@@ -21,6 +21,24 @@ function ItemsCount(){
     });
 }
 
+function Alert(){
+  var message = JSON.parse(localStorage.getItem('message'));
+  if (message === null) {
+    console.log("pustka")
+  } else {
+    console.log(message)
+    var alert = `
+      <div id="alert_object" class="alert alert-${message.type}" role="alert">
+        ${message.message}
+      </div>
+    `
+    $('#alert').empty().append(alert);
+    $('#alert_object').delay(3000).fadeOut('slow');
+    localStorage.removeItem('message');
+  }
+
+}
+
 
 function getData(){
 
@@ -47,7 +65,7 @@ function getData(){
                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                          <i class="fas fa-minus m-1 text-primary" id="decrease" style="cursor: pointer;" data="${item.id}"></i>
                           <p>${item.quantity}</p>
-                          <i class="fas fa-minus m-1 text-primary" id="increase" style="cursor: pointer;" data="${item.id}"></i>
+                          <i class="fas fa-plus m-1 text-primary" id="increase" style="cursor: pointer;" data="${item.id}"></i>
                         </div>
                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                           <h5 class="mb-0">${item.total} PLN</h5>
@@ -82,10 +100,13 @@ $(document).on('click', '#increase', function(e){
         headers: {'X-CSRFToken': csrftoken},
         mode: 'same-origin',
         processData: false,
-        success: function(response){
-          updateData(response);
+        success: function(response, xhr){
+          updateData(response, xhr);
           ItemsCount();
-          GetSummary()
+          GetSummary();
+          SetMessage(response, xhr);
+          Alert()
+
            
         },
         error: function(response) {
@@ -103,10 +124,12 @@ $(document).on('click', '#delete', function(e){
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
       processData: false,
-      success: function(response){
+      success: function(response, xhr){
         $(`#${response.data.item_variant.id}`).fadeOut(400);
         ItemsCount();
         GetSummary()
+        SetMessage(response, xhr);
+        Alert();
          
       },
       error: function(response) {
@@ -127,10 +150,12 @@ $(document).on('click', '#decrease', function(e){
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
       processData: false,
-      success: function(response){
+      success: function(response, xhr){
         updateData(response);
         ItemsCount();
         GetSummary()
+        SetMessage(response, xhr);
+        Alert();
          
       },
       error: function(response) {
@@ -233,15 +258,17 @@ function GetSummary(){
   });
 }
 $(document).on('click', '#delete_cupon', function(e){
-  var id = $(this).attr('data');
   $.ajax({
       url: `http://127.0.0.1:8000/api/cupon/`,
       type: 'DELETE',
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
       processData: false,
-      success: function(response){
+      success: function(response, xhr){
         GetSummary();
+        SetMessage(response, xhr);
+        Alert();
+        
          
       },
       error: function(response) {
@@ -251,33 +278,74 @@ $(document).on('click', '#delete_cupon', function(e){
   });
 })
 
+var url = "http://127.0.0.1:8000/"
+
+
 $(document).on('click', '#cuponButton', function(e){
   e.preventDefault();
   var cupon = $("#form1").val();
   console.log(cupon);
   $.ajax({
-    url: `http://127.0.0.1:8000/api/cupon/`,
+    url: `${url}api/cupon/`,
     type: 'POST',
     headers: {'X-CSRFToken': csrftoken},
     mode: 'same-origin',
     data: `cupon=${cupon}`,
     processData: false,
-    success: function(response){
+    success: function(response, xhr){
       $('#form1').val("");
       GetSummary();
-      console.log(response)
+      SetMessage(response, xhr);
+      Alert();
 
       
     },
-    error: function(response) {
+    error: function(response, xhr) {
       $('#form1').val("");
-      alert(response.responseJSON.message);
+      SetMessage(response, xhr);
+      Alert();
         
 
     }
 
 });
 });
+
+
+$(document).on('click', '#add_single_item_to_cart', function(e){
+  var slug = $(this).attr('data');
+  $.ajax({
+      url: `http://127.0.0.1:8000/api/add-item/${slug}/`,
+      type: 'POST',
+      headers: {'X-CSRFToken': csrftoken},
+      mode: 'same-origin',
+      processData: false,
+      success: function(response, xhr){
+          ItemsCount();
+          SetMessage(response, xhr);
+          Alert()
+          // W ten sposob wywolujemy alert dynamicznie
+          //, przy kazdym przeladowaniu strony aplikacja sprawdza czy sa jakies komunikaty
+
+      },
+      error: function(response, xhr) {
+          console.log(response)
+          SetMessage(response, xhr); 
+          window.location.href = `http://127.0.0.1:8000/product/${slug}/`;
+      }
+
+  });
+});
+
+function SetMessage(response, xhr){
+  if (xhr === "success"){
+      var message = {'message': response.message, "type": "success"};
+  } else {
+      var message = {'message': response.responseJSON.message, "type": "warning"};
+  }
+  localStorage.setItem('message', JSON.stringify(message));
+}
+
 
 
 

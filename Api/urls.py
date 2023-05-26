@@ -29,8 +29,6 @@ urlpatterns = [
     path('categories/<str:gender>/', views.categories, name='categories'),
     
     
-    path("cart/", TemplateView.as_view(template_name='Api/cart.html'))
-    
      
        
      
