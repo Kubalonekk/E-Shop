@@ -197,7 +197,7 @@ function GetSummary(){
           </div>
         </div>
         `
-        $('#summary').append(summary);
+        $('#summary').append(summary)
         } else {
           var summary = `
           <div class="card rounded-3 mb-4">

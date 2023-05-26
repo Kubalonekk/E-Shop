@@ -1,0 +1,99 @@
+{% extends 'App/base.html' %}
+{% load static %}
+    
+
+{% block content %}
+<section class="h-100" style="background-color: white;">
+    <div class="container h-100 py-5">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-10">
+  
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-normal mb-0 text-black">Koszyk</h3>
+          </div>
+          <div id="products">
+        
+          </div>
+          <div id="summary">
+
+          </div>
+          <form method="POST" >
+            {% csrf_token %}
+          <div class="card mb-4">
+            <div class="card-body p-4 d-flex flex-row">
+              <div class="form-outline flex-fill">
+                <input type="text" id="form1" name="cupon" class="form-control form-control-lg" />
+                <label class="form-label" for="form1">Kod rabatowy</label>
+              </div>
+              <button type="submit" id="cuponButton" class="btn btn-outline-warning btn-lg ms-3">Dodaj</button>
+            </div>
+          </form>
+          </div>
+  
+  
+          <div class="card">
+            <div class="card-body">
+              <a href="{% url 'shopping_cart2' %}"><button type="button" class="btn btn-warning btn-block btn-lg">Dalej</button></a>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <script>
+      getData()
+      GetSummary()
+      $(document).on('click', '#cuponButton', function(e){
+        event.preventDefault();
+        var cupon = $("#form1").val();
+        console.log(cupon);
+        $.ajax({
+          url: `http://127.0.0.1:8000/api/cupon/`,
+          type: 'POST',
+          headers: {'X-CSRFToken': csrftoken},
+          mode: 'same-origin',
+          data: `cupon=${cupon}`,
+          processData: false,
+          success: function(response){
+            $('#form1').val("");
+            GetSummary();
+            console.log(response)
+
+            
+          },
+          error: function(response) {
+              alert(response.responseJSON.message);
+
+          }
+
+      });
+    });
+
+
+    {% comment %} function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  const csrftoken = getCookie('csrftoken');
+   {% endcomment %}
+
+  </script>
+
+
+
+{% endblock %}

@@ -205,10 +205,12 @@ class Order(models.Model):
     @property
     # returns cupon value
     def get_cupon_value(self):
-        ordered_items = self.ordered_item.all()
-        total = sum([item.get_total for item in ordered_items])
-        discount = total * self.cupon.discount / 100
-        return discount
+        if self.cupon:     
+            ordered_items = self.ordered_item.all()
+            total = sum([item.get_total for item in ordered_items])
+            discount = total * self.cupon.discount / 100
+            return discount
+        return 0
 
 
 class OrderItem(models.Model):

@@ -57,8 +57,8 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         depth = 2
-        fields = ('id', 'customer', 'address', 'date_ordered', 'complete', 'transaction_id', 'payment_in_progress',
-                  'completion_date', 'cart_total_without_cupon', 'shipment_status', 'cupon', 'cart_total', 'cupon_value', 'get_cart_objects_quantity')
+        fields = ('id', 'cupon_value','customer', 'address', 'date_ordered', 'complete', 'transaction_id', 'payment_in_progress',
+                  'completion_date', 'cart_total_without_cupon', 'shipment_status', 'cupon', 'cart_total', 'get_cart_objects_quantity')
 
     def get_cart_objects_quantity(self, object):
         return object.get_cart_objects_quantity()
