@@ -32,6 +32,7 @@ def get_or_create_customer(request):
             request.session['device'] = str(uuid.uuid4())
             device = request.session.get('device')              
         customer, created = Customer.objects.get_or_create(device=device)
+        print(customer.device)
     return customer
 
 

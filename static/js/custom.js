@@ -1,7 +1,9 @@
 
+var url = "http://127.0.0.1:8000/"
+
 function ItemsCount(){
     $.ajax({
-        url: `http://127.0.0.1:8000/api/order/`,
+        url: `${url}api/order/`,
         type: 'GET',
         mode: 'same-origin',
         processData: false,
@@ -38,7 +40,7 @@ function Alert(){
 
 function getData(){
     $.ajax({
-        url: 'http://127.0.0.1:8000/api/shopping_cart/',
+        url: `${url}api/shopping_cart/`,
         type: 'GET',
         success: function(response) {
             $("#products").empty();
@@ -73,6 +75,7 @@ function getData(){
                     </div>
                   </div>
                 </div>
+
                 `
                 
                 $('#products').append(html);
@@ -89,7 +92,7 @@ function getData(){
 $(document).on('click', '#increase', function(e){
     var id = $(this).attr('data');
     $.ajax({
-        url: `http://127.0.0.1:8000/api/single_item_cart/${id}/`,
+        url: `${url}api/single_item_cart/${id}/`,
         type: 'PUT',
         headers: {'X-CSRFToken': csrftoken},
         mode: 'same-origin',
@@ -113,7 +116,7 @@ $(document).on('click', '#increase', function(e){
 $(document).on('click', '#delete', function(e){
   var id = $(this).attr('data');
   $.ajax({
-      url: `http://127.0.0.1:8000/api/remove_item_from_cart/${id}/`,
+      url: `${url}api/remove_item_from_cart/${id}/`,
       type: 'DELETE',
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
@@ -139,7 +142,7 @@ $(document).on('click', '#delete', function(e){
 $(document).on('click', '#decrease', function(e){
   var id = $(this).attr('data');
   $.ajax({
-      url: `http://127.0.0.1:8000/api/single_item_cart/${id}/`,
+      url: `${url}api/single_item_cart/${id}/`,
       type: 'DELETE',
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
@@ -201,7 +204,7 @@ function updateData(response){
 
 function GetSummary(){
   $.ajax({
-      url: `http://127.0.0.1:8000/api/order/`,
+      url: `${url}api/order/`,
       type: 'GET',
       success: function(response){
         $("#summary").empty();
@@ -253,7 +256,7 @@ function GetSummary(){
 }
 $(document).on('click', '#delete_cupon', function(e){
   $.ajax({
-      url: `http://127.0.0.1:8000/api/cupon/`,
+      url: `${url}api/cupon/`,
       type: 'DELETE',
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
@@ -278,7 +281,7 @@ $(document).on('click', '#cuponButton', function(e){
   e.preventDefault();
   var cupon = $("#form1").val();
   $.ajax({
-    url: `http://127.0.0.1:8000/api/cupon/`,
+    url: `${url}api/cupon/`,
     type: 'POST',
     headers: {'X-CSRFToken': csrftoken},
     mode: 'same-origin',
@@ -307,7 +310,7 @@ $(document).on('click', '#cuponButton', function(e){
 $(document).on('click', '#add_single_item_to_cart', function(e){
   var slug = $(this).attr('data');
   $.ajax({
-      url: `http://127.0.0.1:8000/api/add-item/${slug}/`,
+      url: `${url}api/add-item/${slug}/`,
       type: 'POST',
       headers: {'X-CSRFToken': csrftoken},
       mode: 'same-origin',
@@ -323,7 +326,7 @@ $(document).on('click', '#add_single_item_to_cart', function(e){
       error: function(response, xhr) {
           console.log(response)
           SetMessage(response, xhr); 
-          window.location.href = `http://127.0.0.1:8000/product/${slug}/`;
+          window.location.href = `${url}product/${slug}/`;
       }
 
   });
@@ -337,6 +340,38 @@ function SetMessage(response, xhr){
   }
   localStorage.setItem('message', JSON.stringify(message));
 }
+
+
+$(document).on('click', '#add_to_cart', function(e){
+  e.preventDefault();
+  var product_quanity = $("#product-quanity").val();
+  var product_size = $("#size").val();
+  var slug = $(this).attr('data');
+  $.ajax({
+    url: `${url}api/product/${slug}/`,
+    type: 'POST',
+    headers: {'X-CSRFToken': csrftoken},
+    mode: 'same-origin',
+    data: `product-quanity=${product_quanity}&product-size=${product_size}`,
+    processData: false,
+    success: function(response, xhr){
+      $("#product-quanity").val("1");
+      ItemsCount()
+      SetMessage(response, xhr);
+      Alert();
+
+      
+    },
+    error: function(response, xhr) {
+      $('#product-quanity').val("1");
+      SetMessage(response, xhr);
+      Alert();
+        
+
+    }
+
+});
+});
 
 
 

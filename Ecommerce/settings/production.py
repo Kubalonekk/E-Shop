@@ -4,6 +4,7 @@ from .base import *
 ALLOWED_HOSTS = ['kubalonek99.usermd.net', 'www.kubalonek99.usermd.net']
 
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
 
 
